@@ -1,0 +1,7 @@
+     nim      |        name        |   role    |            email             |            program_studi             
+--------------+--------------------+-----------+------------------------------+--------------------------------------
+ admin        | Admin Pascasarjana | admin     | admin.pps@unismuh.ac.id      | 
+ 105041100123 | Nurul Fadillah     | mahasiswa | nurul.fadillah@unismuh.ac.id | Magister Pendidikan Bahasa Indonesia
+ 105041100124 | Muhammad Rizal     | mahasiswa | rizal@unismuh.ac.id          | Magister Manajemen
+(3 rows)
+

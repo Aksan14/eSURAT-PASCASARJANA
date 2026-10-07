@@ -1,0 +1,26 @@
+{{- /*
+  Surat Keterangan Lulus — mengikuti template_surat-keterangan-lulus.doc
+
+  Field pengajuan (.Data): tanggalYudisium (ISO), ipk ("3.91"),
+  predikatKelulusan, judulTesis. Data diri otomatis dari profil mahasiswa.
+*/ -}}
+@format-nomor: {urut}/A.4-I/{bulan}/{tahun-h}/{tahun-m}
+@judul: {{ upper .JenisSurat }}
+@nomor: Nomor : {{ .NomorSurat }}
+
+{{ .Instansi.Unit }} {{ .Instansi.Universitas }}, dengan ini menerangkan bahwa mahasiswa
+
+| Nama | {{ .Nama }}
+| Tempat, Tgl. Lahir | {{ .TempatTanggalLahir }}
+| No. Induk Mahasiswa | {{ .NIM }}
+| Program Pendidikan | {{ .ProgramPendidikan }}
+| Program Studi | {{ .ProgramStudi }}
+
+Telah menyelesaikan studi pada {{ .Instansi.Unit }} {{ .Instansi.Universitas }} dengan :
+
+| Tanggal Yudisium | {{ tanggal .Data.tanggalYudisium }}
+| Indeks Prestasi (IPK) | {{ .Data.ipk }} ( {{ terbilang .Data.ipk }} )
+| Predikat Kelulusan | {{ .Data.predikatKelulusan }}
+| Judul Tesis | {{ .Data.judulTesis }}
+
+Surat keterangan ini diberikan kepada yang bersangkutan untuk dipergunakan sebagaimana mestinya.

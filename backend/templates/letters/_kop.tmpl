@@ -1,0 +1,13 @@
+{{- /*
+  Kop surat — mengikuti template resmi Program Pascasarjana Unismuh Makassar.
+  Logo Unismuh (kiri) dan badge akreditasi (kanan) diambil dari assets/,
+  teks di bawah ini dirender di antara keduanya, lalu garis ganda dan basmalah.
+
+  Markup per baris:
+    teks      → kecil, tebal, uppercase (baris pertama: yayasan)
+    # teks    → besar, tebal (universitas)
+    ## teks   → serif, tebal, letterspaced (unit)
+*/ -}}
+{{ upper .Instansi.Yayasan }}
+# {{ upper .Instansi.Universitas }}
+## {{ upper .Instansi.Unit }}

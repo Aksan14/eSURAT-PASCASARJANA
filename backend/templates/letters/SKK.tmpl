@@ -1,0 +1,24 @@
+{{- /*
+  Surat Keterangan Kuliah — mengikuti template_surat-keterangan-kuliah.doc
+
+  Field pengajuan (.Data): semester (Ganjil/Genap), tahunAjaran (2025-2026)
+  Data diri otomatis dari profil mahasiswa.
+
+  Baris "@format-nomor" mendeklarasikan pola penomoran surat jenis ini; dipakai sistem
+  untuk mengusulkan nomor berikutnya. Token: {urut} {bulan} {tahun-h} {tahun-m}.
+*/ -}}
+@format-nomor: {urut}/A.4-I/{bulan}/{tahun-h}/{tahun-m}
+@judul: {{ upper .JenisSurat }}
+@nomor: Nomor : {{ .NomorSurat }}
+
+Direktur {{ .Instansi.Unit }} {{ .Instansi.Universitas }}, dengan ini menerangkan bahwa :
+
+| Nama | {{ .Nama }}
+| Tempat, Tgl. Lahir | {{ .TempatTanggalLahir }}
+| No. Induk Mahasiswa | {{ .NIM }}
+| Program Pendidikan | {{ .ProgramPendidikan }}
+| Program Studi | {{ .ProgramStudi }}
+
+adalah benar mahasiswa aktif pada {{ .Instansi.Unit }} {{ .Instansi.Universitas }} pada semester {{ .Data.semester }} Tahun Ajaran {{ .Data.tahunAjaran }}.
+
+Demikian surat keterangan ini diberikan kepada yang bersangkutan untuk dipergunakan sebagaimana mestinya.

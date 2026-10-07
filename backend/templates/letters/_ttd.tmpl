@@ -1,0 +1,21 @@
+{{- /*
+  Blok tanda tangan — kolom kanan halaman.
+  Pada SKK/SKL tanggal (Hijriah & Masehi) berada tepat di atas jabatan;
+  pada SIPI tanggal sudah ditulis di kepala surat sehingga dilewati.
+
+  Markup per baris:
+    _ teks    → garis bawah (baris tanggal Hijriah mengikuti template asli)
+    # teks    → tebal + garis bawah (nama penandatangan)
+    (kosong)  → spasi vertikal (ruang tanda tangan & stempel)
+*/ -}}
+{{- if ne .KodeSurat "SIPI" }}
+_ {{ .TanggalHijriah }} H
+{{ .TanggalSurat }} M
+
+{{ end -}}
+{{ .Penandatangan.Jabatan }}
+
+
+
+# {{ .Penandatangan.Nama }}
+NBM : {{ .Penandatangan.NomorInduk }}

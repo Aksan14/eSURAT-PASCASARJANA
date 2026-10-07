@@ -1,0 +1,371 @@
+@import "tailwindcss";
+
+/* =========================================================
+   Design tokens — DESIGN.md (photography-first, single Action Blue,
+   SF Pro → Inter substitute, pill CTAs, 17px body, parchment canvas)
+   ========================================================= */
+@theme {
+  /* Colors */
+  --color-primary: #0066cc;
+  --color-primary-focus: #0071e3;
+  --color-primary-on-dark: #2997ff;
+  --color-ink: #1d1d1f;
+  --color-body: #1d1d1f;
+  --color-body-on-dark: #ffffff;
+  --color-body-muted: #cccccc;
+  --color-ink-muted-80: #333333;
+  --color-ink-muted-48: #7a7a7a;
+  --color-divider-soft: #f0f0f0;
+  --color-hairline: #e0e0e0;
+  --color-canvas: #ffffff;
+  --color-parchment: #f5f5f7;
+  --color-pearl: #fafafc;
+  --color-tile-1: #272729;
+  --color-tile-2: #2a2a2c;
+  --color-tile-3: #252527;
+  --color-black: #000000;
+  --color-chip: #d2d2d7;
+  --color-on-primary: #ffffff;
+  --color-on-dark: #ffffff;
+
+  /* Semantic (status) — dipetakan ke palet yang netral, tidak bersaing dengan Action Blue */
+  --color-success: #1d7a46;
+  --color-success-soft: #e6f4ec;
+  --color-warning: #b35c00;
+  --color-warning-soft: #fdf1e3;
+  --color-danger: #c0271f;
+  --color-danger-soft: #fdecea;
+  --color-info: #0066cc;
+  --color-info-soft: #e8f1fb;
+
+  /* Brand (logo): navy & kuning — hanya untuk identitas, bukan aksi */
+  --color-brand-navy: #1e2a78;
+  --color-brand-gold: #f5c518;
+
+  /* Typography */
+  --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --text-hero: 56px;
+  --text-hero--line-height: 1.07;
+  --text-hero--letter-spacing: -0.28px;
+  --text-display-lg: 40px;
+  --text-display-lg--line-height: 1.1;
+  --text-display-md: 34px;
+  --text-display-md--line-height: 1.2;
+  --text-display-md--letter-spacing: -0.374px;
+  --text-lead: 28px;
+  --text-lead--line-height: 1.14;
+  --text-lead--letter-spacing: 0.196px;
+  --text-tagline: 21px;
+  --text-tagline--line-height: 1.19;
+  --text-tagline--letter-spacing: 0.231px;
+  --text-body: 17px;
+  --text-body--line-height: 1.47;
+  --text-body--letter-spacing: -0.374px;
+  --text-caption: 14px;
+  --text-caption--line-height: 1.43;
+  --text-caption--letter-spacing: -0.224px;
+  --text-fine: 12px;
+  --text-fine--line-height: 1.33;
+  --text-fine--letter-spacing: -0.12px;
+
+  /* Radius */
+  --radius-xs: 5px;
+  --radius-sm: 8px;
+  --radius-md: 11px;
+  --radius-lg: 18px;
+  --radius-pill: 9999px;
+
+  /* Spacing */
+  --spacing-section: 80px;
+
+  /* Satu-satunya shadow: untuk "produk" (dokumen/kertas) di atas permukaan */
+  --shadow-product: 3px 5px 30px 0 rgb(0 0 0 / 0.22);
+  --shadow-paper: 0 2px 12px 0 rgb(0 0 0 / 0.08);
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  background: var(--color-parchment);
+}
+
+body {
+  background: var(--color-parchment);
+  color: var(--color-ink);
+  font-size: 17px;
+  line-height: 1.44; /* Inter: sedikit lebih rapat dari 1.47 (lihat DESIGN.md) */
+  letter-spacing: -0.374px;
+  font-feature-settings: "ss03", "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer base {
+  h1,
+  h2,
+  h3 {
+    color: var(--color-ink);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+}
+
+::selection {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+/* Tekan: micro-interaction sistem */
+@utility press {
+  transition: transform 150ms ease, background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+@utility frosted {
+  background: color-mix(in srgb, var(--color-parchment) 80%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-focus);
+    outline-offset: 2px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Animasi masuk (login): naik + memudar dengan easing lembut; stagger via --delay.
+   Dinonaktifkan bila pengguna memilih reduced motion.
+--------------------------------------------------------------------------- */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.985);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes halo-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+}
+
+@keyframes border-spin {
+  to {
+    --angle: 360deg;
+  }
+}
+
+@property --angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@utility animate-rise {
+  animation: rise-in 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+/* Kartu login: tilt 3D halus mengikuti kursor (nilai diisi dari JS) */
+@utility tilt-card {
+  transform-style: preserve-3d;
+  transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 600ms ease;
+  will-change: transform;
+}
+
+/* Bingkai gradien tipis yang berputar perlahan di tepi kartu */
+@utility gradient-ring {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--angle),
+    rgb(255 255 255 / 0.1),
+    rgb(41 151 255 / 0.9),
+    rgb(255 255 255 / 0.1) 40%,
+    rgb(255 255 255 / 0.1) 60%,
+    rgb(41 151 255 / 0.6),
+    rgb(255 255 255 / 0.1)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: border-spin 9s linear infinite;
+  pointer-events: none;
+}
+
+@utility halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 120%;
+  height: 120%;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, rgb(41 151 255 / 0.45), transparent);
+  filter: blur(40px);
+  animation: halo-breathe 7s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise,
+  .gradient-ring,
+  .halo {
+    animation: none !important;
+  }
+  .animate-rise {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  .tilt-card {
+    transform: none !important;
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Latar "hidup" login: pita cahaya mengalir, partikel melayang, wireframe menggambar.
+--------------------------------------------------------------------------- */
+@keyframes ribbon-flow {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -1400;
+  }
+}
+
+@keyframes ribbon-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(-18px, 14px, 0) rotate(-1.2deg);
+  }
+}
+
+@keyframes particle-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.15;
+  }
+  25% {
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate3d(calc(var(--drift) * 0.6), calc(var(--drift) * -1), 0);
+    opacity: 0.5;
+  }
+  75% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes wire-draw {
+  0% {
+    stroke-dashoffset: 1200;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  60%,
+  85% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+@utility ribbon-flow {
+  stroke-dasharray: 220 1180;
+  animation: ribbon-flow 9s linear infinite;
+}
+
+@utility ribbon-flow--slow {
+  animation-duration: 14s;
+  animation-direction: reverse;
+}
+
+@utility ribbon-drift {
+  animation: ribbon-drift 16s ease-in-out infinite;
+}
+
+@utility ribbon-drift--rev {
+  animation-direction: reverse;
+  animation-duration: 20s;
+}
+
+@utility particle {
+  position: absolute;
+  border-radius: 9999px;
+  background: #bfe3ff;
+  box-shadow: 0 0 10px 2px rgb(90 176 255 / 0.6);
+  animation: particle-float var(--dur, 10s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+@utility wire-draw {
+  stroke-dasharray: 1200;
+  animation: wire-draw 18s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-flow,
+  .ribbon-drift,
+  .particle,
+  .wire-draw {
+    animation: none !important;
+  }
+  .wire-draw {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-hairline) transparent;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-canvas) inset;
+  -webkit-text-fill-color: var(--color-ink);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+}

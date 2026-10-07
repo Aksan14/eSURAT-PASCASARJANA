@@ -1,0 +1,34 @@
+{{- /*
+  Surat Pengantar Izin Penelitian — mengikuti template_surat-pengantar-izin-penelitian.doc
+  (permohonan kepada LP3M agar diterbitkan surat izin penelitian).
+
+  Field pengajuan (.Data): judulTesis, tujuanSurat (jabatan/instansi yang dituju),
+  kotaTujuan. Data diri otomatis dari profil mahasiswa.
+
+  Markup khusus surat dinas:
+    @nomor / @lamp / @hal  → blok kiri; tanggal Hijriah & Masehi otomatis di kanan
+    @tujuan                 → baris "Kepada Yth," (boleh berulang)
+    @di                     → kota tujuan ("di - Makassar")
+    @salam-buka / @salam-tutup → dicetak miring
+*/ -}}
+@format-nomor: {urut}/A.2-II/{bulan}/{tahun-h}/{tahun-m}
+@nomor: {{ .NomorSurat }}
+@lamp: -
+@hal: Pengantar Izin Penelitian
+@tanggal-h: {{ .TanggalHijriah }}
+@tanggal-m: {{ .TanggalSurat }}
+@tujuan: {{ .Data.tujuanSurat | default "Ketua LP3M Universitas Muhammadiyah Makassar" }}
+@di: {{ .Data.kotaTujuan | default "Makassar" }}
+@salam-buka: Assalamu Alaikum Wr. Wb.
+@salam-tutup: Wassalamu Alaikum Wr. Wb.
+
+Dalam rangka penyusunan tesis mahasiswa {{ .Instansi.Unit }} {{ .Instansi.Universitas }} :
+
+| Nama | {{ .Nama }}
+| NIM | {{ .NIM }}
+| Program Studi | {{ .ProgramStudi }}
+| Judul Tesis | {{ .Data.judulTesis }}
+
+Sehubungan hal tersebut di atas, kami mohon kepada Bapak/Ibu kiranya mahasiswa tersebut dapat dibuatkan surat izin penelitian.
+
+Demikian permohonan kami, atas perhatian dan bantuannya diucapkan terima kasih.
